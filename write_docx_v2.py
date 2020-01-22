@@ -24,7 +24,7 @@ def cell_merge(table):
             cell = table.cell(row_index,col_index)   #遍历所有单元格
             col_list = []   #将已经合并单元格的点放入列表中
             if (row_index,col_index) in cell_merge_list:   #已合并的单元格不再重复查验
-                break
+                continue
             else:
                 try:
                     _ = float(cell.text)   #纯数字类单元格不合并
@@ -120,13 +120,18 @@ def write_file(file):
         
         #标题行
         p = document.add_paragraph('')
+        #p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER #只有add_paragraph方法有这个属性
+        run = p.add_run('附件1') #只有add_paragraph.add_run这个方法有下面的属性，而且想要更改个别属性，就需要用.add_run方法！
+        set_style(run, u'黑体', 16, False)
+
+        p = document.add_paragraph('')
         p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER #只有add_paragraph方法有这个属性
         run = p.add_run(province_name + '分公司2020-2022年网络发展滚动规划') #只有add_paragraph.add_run这个方法有下面的属性，而且想要更改个别属性，就需要用.add_run方法！
         set_style(run, u'黑体', 18, True)
 
         p = document.add_paragraph('')
         p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run = p.add_run('初审评审意见')
+        run = p.add_run('评审意见')
         set_style(run, u'黑体', 18, True)
         
         
@@ -219,11 +224,11 @@ def write_file(file):
 
 def main():
     global professions
-    professions = [['CDN']]
     
     #professions = [['数据网'],['STN(IPRAN)'],['传输网'],['接入网'],['IDC'],['DC'],['云'],['业务平台'],['CDN'],['移动核心网'],['固网核心网'],['应急通信'],['节能减排']]
 
     #professions = [['移动网','核心网'],['基础网','接入网和综合业务接入区','IP网','STN(IPRAN)','传输网'],['IDC及基础设施建设','IDC及DC基础设施建设','管道及其他基础设施'],['云计算','云','CDN','业务平台']]
+    professions = [['基础网','有线接入网和综合业务接入区','STN','传输网'],['IDC及基础设施建设'],['云计算','云','CDN','业务平台']]
 
     global province_names #省名
     province_names = ['北京','天津','河北','山西','内蒙古','辽宁','吉林','黑龙江','上海','江苏','浙江','安徽','福建','江西','山东','河南','湖北','湖南','广东','广西','海南','重庆','四川','贵州','云南','西藏','陕西','甘肃','青海','宁夏','新疆']
